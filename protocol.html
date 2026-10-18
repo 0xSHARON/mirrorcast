@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MirrorCast Protocol Specification — Wire format, WebSocket signaling state machine, mDNS discovery, and DTLS-SRTP media plane.">
+  <meta name="author" content="0xSHARON">
+  <title>MirrorCast — Protocol Specification v1.0.0</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-brand">
+        <img src="assets/logo.png" alt="MirrorCast Logo" class="nav-logo">
+        <span>MirrorCast</span>
+        <span class="nav-brand-badge">v1.0.0</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Overview</a></li>
+        <li><a href="protocol.html" class="nav-link active">Protocol Spec</a></li>
+        <li><a href="downloads.html" class="nav-link">Downloads</a></li>
+        <li><a href="https://github.com/0xSHARON/mirrorcast" target="_blank" rel="noopener noreferrer" class="nav-link">Source</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="https://github.com/0xSHARON" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">
+          <span>0xSHARON</span>
+        </a>
+        <a href="downloads.html" class="btn btn-primary btn-sm">
+          Get MirrorCast
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="hero" style="padding: 60px 0 40px; text-align: left;">
+    <div class="container">
+      <div class="hero-pill">
+        <span class="pill-dot"></span>
+        <span>RFC 6762 • RFC 6455 • RFC 5764 COMPLIANT SPECIFICATION</span>
+      </div>
+
+      <h1 class="hero-title" style="margin-left: 0; font-size: clamp(2rem, 4vw, 3rem);">
+        MirrorCast Protocol Specification<br>
+        <span style="font-size: 1.5rem; font-weight: 400; color: var(--text-muted);">Version 1.0.0 &bull; P2P Direct Transport</span>
+      </h1>
+
+      <p class="hero-description" style="margin-left: 0; max-width: 780px;">
+        This document specifies the wire format, discovery mechanisms, authorization handshake, and WebRTC signaling sequences used to establish deterministic, sub-15ms screen and audio streams between Android senders and Windows receivers.
+      </p>
+    </div>
+  </header>
+
+  <!-- Main Protocol Content -->
+  <main class="container" style="padding-bottom: 80px;">
+    
+    <!-- Protocol Architecture Overview -->
+    <section class="section" style="padding-top: 20px;">
+      <div class="section-tag">01. Architecture</div>
+      <h2 class="section-title">Tri-Layer Protocol Model</h2>
+      <p class="section-subtitle">
+        MirrorCast decouples discovery, control signaling, and media transport across three distinct network planes to achieve immediate connection without central relays.
+      </p>
+
+      <div class="grid-3" style="margin-top: 28px;">
+        <div class="card">
+          <div class="mono" style="color: var(--accent-cyan); font-size: 0.78rem; margin-bottom: 8px;">LAYER 1: DISCOVERY</div>
+          <div class="card-title">mDNS / DNS-SD</div>
+          <p class="card-description">
+            Broadcasts over UDP <code class="mono">224.0.0.251:5353</code> with PTR record <code class="mono">_mirrorcast._tcp.local</code>. Enables zero-configuration LAN discovery within 20 milliseconds.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="mono" style="color: var(--accent-cyan); font-size: 0.78rem; margin-bottom: 8px;">LAYER 2: CONTROL</div>
+          <div class="card-title">WebSocket Signaling</div>
+          <p class="card-description">
+            Bidirectional JSON message framing over TCP port 8080 (or USB ADB reverse tunnel). Handles device capability exchange, authorization consent, and WebRTC SDP negotiation.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="mono" style="color: var(--accent-cyan); font-size: 0.78rem; margin-bottom: 8px;">LAYER 3: DATA PLANE</div>
+          <div class="card-title">WebRTC SRTP</div>
+          <p class="card-description">
+            Direct PeerConnection carrying H.264 video RTP streams and Opus audio RTP packets, encrypted end-to-end with ephemeral DTLS-SRTP keys.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- State Machine & Flow -->
+    <section class="section">
+      <div class="section-tag">02. State Machine</div>
+      <h2 class="section-title">Signaling & Authorization Flow</h2>
+      <p class="section-subtitle">
+        Every mirroring session strictly transitions through deterministic phases before media buffers are decoded.
+      </p>
+
+      <div class="terminal-card" style="margin-top: 28px; max-width: 100%;">
+        <div class="terminal-header">
+          <span class="mono">Signaling Sequence (ASCII Wire Graph)</span>
+          <span class="mono" style="color: var(--accent-green);">Deterministic State Progression</span>
+        </div>
+        <div class="terminal-body" style="font-size: 0.8rem; line-height: 1.6;">
+          <pre>
+ Android Sender                                                   Windows Receiver
+   [ DISCONNECTED ]                                                  [ LISTENING ]
+          |                                                                |
+          | --- 1. mDNS Query (_mirrorcast._tcp.local) ----------------->  |
+          | <--- 2. mDNS Response (IP: 192.168.1.42, Port: 8080) -------   |
+          |                                                                |
+          | --- 3. WebSocket Connect (ws://192.168.1.42:8080) ---------->  |
+          |                                                                |
+   [ AUTHENTICATING ]                                              [ VERIFYING ]
+          | --- 4. pair_request { device: "Galaxy Tab A", pin: null } -->  |
+          |                                                           (Prompt User)
+          | <--- 5. pair_response { status: "allowed", token: "..." } --   |
+          |                                                                |
+   [ NEGOTIATING ]                                                 [ NEGOTIATING ]
+          | --- 6. webrtc_offer { sdp: "..." } ------------------------->  |
+          | <--- 7. webrtc_answer { sdp: "..." } -----------------------   |
+          | <---> 8. ice_candidate exchange (host / direct IP) <------->   |
+          |                                                                |
+   [ STREAMING ]                                                   [ RENDERING ]
+          | =============================================================> |
+          |      Direct H.264 Video + Stereo Opus over SRTP (Direct P2P)   |
+          | =============================================================> |
+          |                                                                |
+          | <--- 9. stream_control { action: "throttle_bitrate" } ------   |
+          |                                                                |
+   [ TERMINATED ]                                                  [ LISTENING ]
+          | --- 10. disconnect { reason: "user_stop" } ----------------->  |
+          </pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive JSON Payload Inspector -->
+    <section class="section">
+      <div class="section-tag">03. Wire Payloads</div>
+      <h2 class="section-title">Interactive Payload Inspector</h2>
+      <p class="section-subtitle">
+        Select a packet type to inspect actual wire JSON payloads transmitted across the WebSocket control channel.
+      </p>
+
+      <div style="display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap;">
+        <button class="btn btn-secondary btn-sm payload-tab active" data-payload="pair_request">pair_request</button>
+        <button class="btn btn-secondary btn-sm payload-tab" data-payload="pair_response">pair_response</button>
+        <button class="btn btn-secondary btn-sm payload-tab" data-payload="webrtc_offer">webrtc_offer</button>
+        <button class="btn btn-secondary btn-sm payload-tab" data-payload="webrtc_answer">webrtc_answer</button>
+        <button class="btn btn-secondary btn-sm payload-tab" data-payload="ice_candidate">ice_candidate</button>
+        <button class="btn btn-secondary btn-sm payload-tab" data-payload="stream_control">stream_control</button>
+      </div>
+
+      <div class="terminal-card" style="margin-top: 16px; max-width: 100%;">
+        <div class="terminal-header">
+          <span class="mono" id="payload-filename">pair_request.json</span>
+          <button class="btn btn-ghost btn-sm" id="btn-copy-payload" style="padding: 2px 8px; font-size: 0.72rem;">
+            Copy JSON
+          </button>
+        </div>
+        <div class="terminal-body" id="payload-display">
+          <pre id="payload-code"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- USB Reverse ADB Architecture -->
+    <section class="section">
+      <div class="section-tag">04. USB Subsystem</div>
+      <h2 class="section-title">Zero-Latency USB ADB Reverse Tunneling</h2>
+      <p class="section-subtitle">
+        In high-interference RF environments or restricted enterprise Wi-Fi networks, MirrorCast leverages Android Debug Bridge (ADB) port forwarding.
+      </p>
+
+      <div class="terminal-card" style="margin-top: 24px; max-width: 100%;">
+        <div class="terminal-header">
+          <span class="mono">adb-reverse-pipe.sh</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line">
+            <span class="prompt"># Forward Android loopback 8080 to Windows receiver on 8080</span>
+          </div>
+          <div class="terminal-line">
+            <span class="prompt">$</span>
+            <span>adb reverse tcp:8080 tcp:8080</span>
+          </div>
+          <div class="terminal-line output">
+            <span>8080</span>
+          </div>
+          <div class="terminal-line">
+            <span class="prompt"># Android connects to ws://127.0.0.1:8080 via High-Speed USB 2.0/3.0 PHY</span>
+          </div>
+          <div class="terminal-line output">
+            <span>[USB PHY] Latency: <span class="highlight">0.8ms round-trip</span> &bull; 0% Wi-Fi jitter &bull; Unlimited bandwidth headroom</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security & Isolation -->
+    <section class="section">
+      <div class="section-tag">05. Security Model</div>
+      <h2 class="section-title">Threat Model & Hardened Constraints</h2>
+      <p class="section-subtitle">
+        MirrorCast is built without cloud intermediaries, preventing eavesdropping and rogue connections.
+      </p>
+
+      <table class="specs-table" style="margin-top: 24px;">
+        <thead>
+          <tr>
+            <th>Security Domain</th>
+            <th>Protective Measure & Guarantee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Media Cryptography</td>
+            <td>DTLS 1.2 / SRTP encryption with ephemeral ECDSA/RSA keys per session. No plain RTP is ever transmitted.</td>
+          </tr>
+          <tr>
+            <td>Receiver Access Control</td>
+            <td>Incoming sessions trigger a mandatory interactive desktop prompt displaying sender hardware ID and IP address.</td>
+          </tr>
+          <tr>
+            <td>PIN Verification</td>
+            <td>Optional 4-digit numeric code with rate limiting (max 3 failed attempts per 60s) to prevent LAN brute force.</td>
+          </tr>
+          <tr>
+            <td>Network Boundary</td>
+            <td>Binds to local network interfaces only. No NAT traversal (no STUN/TURN relays) — impossible to access over the WAN.</td>
+          </tr>
+          <tr>
+            <td>Telemetry & Analytics</td>
+            <td>Zero telemetry, zero crash reporters, zero analytics SDKs, zero external DNS queries.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-author">
+        <span>Engineered with precision by</span>
+        <a href="https://github.com/0xSHARON" target="_blank" rel="noopener noreferrer" class="author-link">
+          0xSHARON
+        </a>
+        <span>&bull;</span>
+        <a href="https://github.com/0xSHARON/mirrorcast" target="_blank" rel="noopener noreferrer" style="color: var(--text-secondary);">
+          GitHub Repository
+        </a>
+      </div>
+
+      <div style="display: flex; gap: 20px; font-size: 0.82rem; color: var(--text-muted);">
+        <a href="index.html">Overview</a>
+        <a href="downloads.html">Release Binaries</a>
+        <a href="https://github.com/0xSHARON/mirrorcast/blob/main/LICENSE.md" target="_blank" rel="noopener noreferrer">MIT License</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MirrorCast — Sub-15ms Screen and Audio Mirroring from Android to Windows. Pure P2P WebRTC, zero cloud, zero telemetry.">
+  <meta name="author" content="0xSHARON">
+  <title>MirrorCast — Ultra-low Latency Android to Windows Screen Mirroring</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-brand">
+        <img src="assets/logo.png" alt="MirrorCast Logo" class="nav-logo">
+        <span>MirrorCast</span>
+        <span class="nav-brand-badge">v1.0.0</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link active">Overview</a></li>
+        <li><a href="protocol.html" class="nav-link">Protocol Spec</a></li>
+        <li><a href="downloads.html" class="nav-link">Downloads</a></li>
+        <li><a href="https://github.com/0xSHARON/mirrorcast" target="_blank" rel="noopener noreferrer" class="nav-link">Source</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="https://github.com/0xSHARON" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">
+          <span>0xSHARON</span>
+        </a>
+        <a href="downloads.html" class="btn btn-primary btn-sm">
+          Get MirrorCast
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-pill">
+        <span class="pill-dot"></span>
+        <span>DIRECT P2P WEBRTC • ZERO CLOUD • SUB-15MS LATENCY</span>
+      </div>
+
+      <h1 class="hero-title">
+        High-fidelity screen mirroring.<br>
+        <span>Engineered for zero latency.</span>
+      </h1>
+
+      <p class="hero-description">
+        Direct hardware-accelerated H.264 video and 48kHz stereo Opus audio from Android to Windows. 
+        Works seamlessly over local Wi-Fi or offline USB via ADB reverse tunneling.
+      </p>
+
+      <div class="hero-cta">
+        <a href="https://github.com/0xSHARON/mirrorcast/releases/download/v1.0.0/mirrorcast-windows-x64.zip" class="btn btn-primary btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download Windows (x64)
+        </a>
+        <a href="https://github.com/0xSHARON/mirrorcast/releases/download/v1.0.0/mirrorcast.apk" class="btn btn-secondary btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+          Download Android APK
+        </a>
+        <a href="protocol.html" class="btn btn-ghost btn-lg">
+          View Protocol Spec &rarr;
+        </a>
+      </div>
+
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="mono highlight">~12ms</span> Glass-to-Glass Latency
+        </div>
+        <div class="hero-meta-item">
+          <span class="mono highlight">1080p / 60fps</span> Hardware Pipeline
+        </div>
+        <div class="hero-meta-item">
+          <span class="mono highlight">0KB</span> Cloud Telemetry
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Quickstart Terminal Section -->
+  <section class="container">
+    <div class="terminal-card">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+        </div>
+        <div class="mono">quickstart.sh</div>
+        <button class="btn btn-ghost btn-sm" id="btn-copy-terminal" style="padding: 2px 8px; font-size: 0.72rem;">
+          Copy
+        </button>
+      </div>
+      <div class="terminal-body" id="terminal-content">
+        <div class="terminal-line">
+          <span class="prompt"># 1. Start Windows Receiver (Zero-Install Executable)</span>
+        </div>
+        <div class="terminal-line">
+          <span class="prompt">$</span>
+          <span>.\mirrorcast-receiver.exe --port 8080</span>
+        </div>
+        <div class="terminal-line output">
+          <span>[mDNS] Advertising service _mirrorcast._tcp.local on 192.168.1.42:8080</span>
+        </div>
+        <div class="terminal-line output">
+          <span>[WebSocket] Signaling server listening on ws://0.0.0.0:8080</span>
+        </div>
+        <div class="terminal-line">
+          <span class="prompt"># 2. Sideload Android Sender APK</span>
+        </div>
+        <div class="terminal-line">
+          <span class="prompt">$</span>
+          <span>adb install -r mirrorcast.apk</span>
+        </div>
+        <div class="terminal-line output">
+          <span>Success. Receiver automatically discovered in <span class="highlight">18ms</span>.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Handshake & Pipeline Simulator -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-tag">Interactive Architecture</div>
+        <h2 class="section-title">The MirrorCast WebRTC Pipeline</h2>
+        <p class="section-subtitle">
+          Explore how MirrorCast discovers, negotiates, verifies security consent, and streams raw hardware-encoded buffers directly across LAN or USB.
+        </p>
+      </div>
+
+      <div class="simulator-box">
+        <div class="flow-steps">
+          <div class="flow-step active" data-step="1">
+            <div class="step-number">STEP 01</div>
+            <div class="step-label">mDNS Discovery</div>
+          </div>
+          <div class="flow-step" data-step="2">
+            <div class="step-number">STEP 02</div>
+            <div class="step-label">Signaling & Handshake</div>
+          </div>
+          <div class="flow-step" data-step="3">
+            <div class="step-number">STEP 03</div>
+            <div class="step-label">Security Authorization</div>
+          </div>
+          <div class="flow-step" data-step="4">
+            <div class="step-number">STEP 04</div>
+            <div class="step-label">P2P Hardware Stream</div>
+          </div>
+        </div>
+
+        <div class="simulator-display" id="simulator-screen">
+          <!-- Step 1 Content -->
+          <div class="sim-content active" id="sim-step-1">
+            <div class="mono" style="color: var(--accent-cyan); font-size: 0.85rem; margin-bottom: 12px;">RFC 6762 / mDNS Zeroconf Multicast</div>
+            <p style="color: var(--text-secondary); max-width: 520px; font-size: 0.9rem; margin-bottom: 16px;">
+              The Windows receiver broadcasts its presence on multicast address <code class="mono">224.0.0.251:5353</code>. 
+              The Android client resolves receiver hostname and WebSocket port without user intervention.
+            </p>
+            <div class="mono" style="background: rgba(255,255,255,0.03); padding: 8px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); font-size: 0.8rem; text-align: left;">
+              Target: <span style="color: var(--accent-green);">MirrorCast-Desktop._mirrorcast._tcp.local</span><br>
+              IPv4: <span style="color: #60a5fa;">192.168.1.42:8080</span> &bull; TXT: <span style="color: var(--accent-amber);">v=1.0.0;auth=pin;hw=d3d11</span>
+            </div>
+          </div>
+
+          <!-- Step 2 Content -->
+          <div class="sim-content" id="sim-step-2" style="display: none;">
+            <div class="mono" style="color: var(--accent-cyan); font-size: 0.85rem; margin-bottom: 12px;">WebSocket Session Negotiation</div>
+            <p style="color: var(--text-secondary); max-width: 520px; font-size: 0.9rem; margin-bottom: 16px;">
+              Android initiates a lightweight WebSocket session to exchange WebRTC SDP (Session Description Protocol) offer/answer and ICE candidates.
+            </p>
+            <div class="mono" style="background: rgba(255,255,255,0.03); padding: 8px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); font-size: 0.8rem; text-align: left;">
+              { "type": "offer", "sdp": "v=0\r\no=- 4201 2 IN IP4 192.168.1.20\r\nm=video 9 UDP/TLS/RTP/SAVPF 96..." }
+            </div>
+          </div>
+
+          <!-- Step 3 Content -->
+          <div class="sim-content" id="sim-step-3" style="display: none;">
+            <div class="modal-simulation">
+              <div class="modal-title">Incoming Screen Mirroring Request</div>
+              <div class="modal-desc">
+                Device <strong>Galaxy Tab A (SM-T295)</strong> at <span class="mono">192.168.1.20</span> is requesting permission to mirror its screen and stream internal audio.
+              </div>
+              <div class="modal-actions">
+                <button class="btn btn-ghost btn-sm" id="sim-btn-reject">Reject</button>
+                <button class="btn btn-primary btn-sm" id="sim-btn-allow">Allow & Connect</button>
+              </div>
+            </div>
+            <div id="sim-modal-feedback" class="mono" style="margin-top: 14px; font-size: 0.8rem; color: var(--accent-cyan);">
+              Click "Allow & Connect" to simulate real Windows security verification.
+            </div>
+          </div>
+
+          <!-- Step 4 Content -->
+          <div class="sim-content" id="sim-step-4" style="display: none;">
+            <div style="display: flex; gap: 32px; align-items: center; justify-content: center; flex-wrap: wrap;">
+              <div style="text-align: left;">
+                <div class="mono" style="color: var(--accent-green); font-size: 0.8rem; margin-bottom: 6px;">
+                  &bull; ACTIVE HARDWARE PIPELINE
+                </div>
+                <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 12px;">1920 &times; 1080 @ 60 FPS</div>
+                <div class="mono" style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.8;">
+                  Video Codec: <span class="highlight">H.264 High Profile (MediaCodec)</span><br>
+                  Audio Stream: <span class="highlight">Opus 48kHz Stereo 128kbps</span><br>
+                  Decoder: <span class="highlight">Windows D3D11 / DXVA2 Hardware</span><br>
+                  Transport: <span class="highlight">Direct LAN SRTP (P2P)</span>
+                </div>
+              </div>
+              <div style="background: var(--bg-tertiary); padding: 16px 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-medium); text-align: left;">
+                <div class="mono" style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">STREAM TELEMETRY</div>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan); font-family: var(--font-mono);">11.4 ms</div>
+                <div class="mono" style="font-size: 0.75rem; color: var(--text-secondary);">End-to-End Latency</div>
+                <div class="mono" style="font-size: 0.75rem; color: var(--accent-green); margin-top: 6px;">0 Dropped Frames (0.0%)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Grid (Engineering Highlights) -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-tag">Core Capabilities</div>
+        <h2 class="section-title">Built for Performance. Zero Bloat.</h2>
+        <p class="section-subtitle">
+          Every component in MirrorCast is written to maximize frame-rate stability and minimize processing overhead.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          </div>
+          <div class="card-title">Hardware Acceleration</div>
+          <p class="card-description">
+            Zero-copy Android Surface-to-MediaCodec encoding matched with Windows DXVA2 / Direct3D 11 hardware decoding. Battery friendly and cold to the touch.
+          </p>
+          <span class="card-badge">Zero CPU Bottleneck</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <div class="card-title">Dual Transport Pipeline</div>
+          <p class="card-description">
+            Automatic zero-configuration Wi-Fi mDNS pairing, or fallback to zero-jitter USB ADB reverse tunneling (<code class="mono">tcp:8080</code>) without requiring Wi-Fi.
+          </p>
+          <span class="card-badge">Wi-Fi &bull; USB ADB</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+          </div>
+          <div class="card-title">Audio Loopback Forwarding</div>
+          <p class="card-description">
+            Full system audio capturing via Android 10+ AudioPlaybackCapture API encoded into low-overhead stereo Opus with an optional device-side speaker mute switch.
+          </p>
+          <span class="card-badge">Opus 48kHz Stereo</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </div>
+          <div class="card-title">AirPlay-Grade Security</div>
+          <p class="card-description">
+            Explicit desktop consent prompts and optional 4-digit PIN authentication guarantee that unauthorized devices on your network cannot view or transmit data.
+          </p>
+          <span class="card-badge">Consent Barrier</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          </div>
+          <div class="card-title">Zero Cloud & No Accounts</div>
+          <p class="card-description">
+            No signup, no tracking analytics, no STUN/TURN relays, and no internet access needed. All data packets stay strictly inside your physical local network.
+          </p>
+          <span class="card-badge">100% Offline P2P</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+          <div class="card-title">Ultra Lightweight Footprint</div>
+          <p class="card-description">
+            Windows receiver binary is only ~1.1MB compressed. No Electron runtime, no Chromium overhead, and no background memory hogging.
+          </p>
+          <span class="card-badge">1.1 MB Native Executable</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specifications Matrix -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-tag">Specifications</div>
+        <h2 class="section-title">Technical Parameters</h2>
+        <p class="section-subtitle">
+          Designed from first principles to provide transparent, deterministic, and verifiable mirroring performance.
+        </p>
+      </div>
+
+      <table class="specs-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Specification & Implementation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Target Glass Latency</td>
+            <td>10ms – 18ms (USB ADB Direct) / 14ms – 24ms (5GHz 802.11ac Wi-Fi)</td>
+          </tr>
+          <tr>
+            <td>Video Codec</td>
+            <td>H.264 / AVC (High Profile Level 4.2 / Baseline fallback)</td>
+          </tr>
+          <tr>
+            <td>Resolution & Framerate</td>
+            <td>1080p (1920&times;1080) / 720p (1280&times;720) adaptive up to 60 FPS</td>
+          </tr>
+          <tr>
+            <td>Audio Stream</td>
+            <td>Opus 48,000 Hz, 2-Channel Stereo, 128 kbps constant bitrate (CBR)</td>
+          </tr>
+          <tr>
+            <td>Signaling Protocol</td>
+            <td>Standard WebSocket JSON framing over port 8080 (TCP)</td>
+          </tr>
+          <tr>
+            <td>Media Transport</td>
+            <td>WebRTC PeerConnection via SRTP (Secure Real-time Transport Protocol)</td>
+          </tr>
+          <tr>
+            <td>Local Discovery</td>
+            <td>mDNS / DNS-SD Service Type <code class="mono">_mirrorcast._tcp.local</code> (RFC 6762 / 6763)</td>
+          </tr>
+          <tr>
+            <td>Android Compatibility</td>
+            <td>Android 5.0 (Lollipop) through Android 15 (ARM64, ARMv7, x86_64)</td>
+          </tr>
+          <tr>
+            <td>Windows Receiver</td>
+            <td>Windows 10 / 11 (64-bit), Direct3D 11 / DXVA2 Hardware Decoder</td>
+          </tr>
+          <tr>
+            <td>Source License</td>
+            <td>MIT License &bull; 100% Open Source</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Download CTA Section -->
+  <section class="section" style="background: var(--bg-secondary); border-bottom: 1px solid var(--border-subtle);">
+    <div class="container" style="text-align: center; padding: 40px 0;">
+      <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em;">
+        Ready for zero-latency screen mirroring?
+      </h2>
+      <p style="color: var(--text-secondary); max-width: 560px; margin: 0 auto 30px; font-size: 1.05rem;">
+        Get the latest production release v1.0.0. No registration, no ads, no trackers.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+        <a href="downloads.html" class="btn btn-primary btn-lg">
+          Download v1.0.0 Assets
+        </a>
+        <a href="https://github.com/0xSHARON/mirrorcast" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg">
+          Star on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-author">
+        <span>Engineered with precision by</span>
+        <a href="https://github.com/0xSHARON" target="_blank" rel="noopener noreferrer" class="author-link">
+          0xSHARON
+        </a>
+        <span>&bull;</span>
+        <a href="https://github.com/0xSHARON/mirrorcast" target="_blank" rel="noopener noreferrer" style="color: var(--text-secondary);">
+          GitHub Repository
+        </a>
+      </div>
+
+      <div style="display: flex; gap: 20px; font-size: 0.82rem; color: var(--text-muted);">
+        <a href="protocol.html">Protocol Spec</a>
+        <a href="downloads.html">Release Binaries</a>
+        <a href="https://github.com/0xSHARON/mirrorcast/blob/main/LICENSE.md" target="_blank" rel="noopener noreferrer">MIT License</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Download MirrorCast v1.0.0 — Production release binaries for Android (APK) and Windows (x64) with SHA256 verification and setup guide.">
+  <meta name="author" content="0xSHARON">
+  <title>MirrorCast — Downloads & Installation (v1.0.0)</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-brand">
+        <img src="assets/logo.png" alt="MirrorCast Logo" class="nav-logo">
+        <span>MirrorCast</span>
+        <span class="nav-brand-badge">v1.0.0</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Overview</a></li>
+        <li><a href="protocol.html" class="nav-link">Protocol Spec</a></li>
+        <li><a href="downloads.html" class="nav-link active">Downloads</a></li>
+        <li><a href="https://github.com/0xSHARON/mirrorcast" target="_blank" rel="noopener noreferrer" class="nav-link">Source</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="https://github.com/0xSHARON" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">
+          <span>0xSHARON</span>
+        </a>
+        <a href="https://github.com/0xSHARON/mirrorcast/releases/tag/v1.0.0" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+          GitHub Release
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="hero" style="padding: 60px 0 40px; text-align: left;">
+    <div class="container">
+      <div class="hero-pill">
+        <span class="pill-dot"></span>
+        <span>OFFICIAL PRODUCTION RELEASE &bull; V1.0.0 STABLE</span>
+      </div>
+
+      <h1 class="hero-title" style="margin-left: 0; font-size: clamp(2rem, 4vw, 3rem);">
+        Production Release Binaries<br>
+        <span style="font-size: 1.5rem; font-weight: 400; color: var(--text-muted);">Verified cryptographic checksums &bull; Zero bloat</span>
+      </h1>
+
+      <p class="hero-description" style="margin-left: 0; max-width: 780px;">
+        Download the verified binaries for Windows and Android. Both packages are self-contained, require zero administrative installers, and run 100% locally.
+      </p>
+    </div>
+  </header>
+
+  <!-- Main Downloads Section -->
+  <main class="container" style="padding-bottom: 80px;">
+    
+    <!-- Binary Cards Grid -->
+    <div class="grid-2">
+      
+      <!-- Windows Binary Card -->
+      <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+            <div class="card-icon" style="margin-bottom: 0;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <span class="card-badge" style="margin-top: 0; background: rgba(0,229,255,0.1); color: var(--accent-cyan);">
+              Windows x64
+            </span>
+          </div>
+
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 6px;">Windows Receiver Bundle</h3>
+          <p class="card-description" style="margin-bottom: 18px;">
+            Self-contained native portable executable. Includes D3D11/DXVA2 hardware accelerated renderer and native security consent dialogs.
+          </p>
+
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 18px;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px;">
+              <span style="color: var(--text-muted);">File:</span>
+              <span class="mono" style="color: var(--text-primary);">mirrorcast-windows-x64.zip</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px;">
+              <span style="color: var(--text-muted);">Archive Size:</span>
+              <span class="mono" style="color: var(--accent-green);">1.16 MB</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+              <span style="color: var(--text-muted);">Compatibility:</span>
+              <span style="color: var(--text-secondary);">Windows 10 / 11 (64-bit)</span>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 18px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">SHA256 CHECKSUM</span>
+              <button class="btn btn-ghost btn-sm" onclick="navigator.clipboard.writeText('6A47601A7D1C25DE77B1C59B607CA4432E6B510049F9E9538C1B4D4CC65C276E'); alert('Copied Windows SHA256 Hash to clipboard!');" style="padding: 2px 6px; font-size: 0.7rem;">
+                Copy Hash
+              </button>
+            </div>
+            <div class="mono" style="font-size: 0.72rem; word-break: break-all; color: var(--text-secondary); background: #000; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border-subtle);">
+              6A47601A7D1C25DE77B1C59B607CA4432E6B510049F9E9538C1B4D4CC65C276E
+            </div>
+          </div>
+        </div>
+
+        <a href="https://github.com/0xSHARON/mirrorcast/releases/download/v1.0.0/mirrorcast-windows-x64.zip" class="btn btn-primary btn-lg" style="width: 100%;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download Windows Receiver (1.16 MB)
+        </a>
+      </div>
+
+      <!-- Android Binary Card -->
+      <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+            <div class="card-icon" style="margin-bottom: 0;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+            </div>
+            <span class="card-badge" style="margin-top: 0; background: rgba(16,185,129,0.1); color: var(--accent-green);">
+              Android APK
+            </span>
+          </div>
+
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 6px;">Android Sender APK</h3>
+          <p class="card-description" style="margin-bottom: 18px;">
+            Low-overhead screen capture & audio loopback streaming client with native mDNS Zeroconf receiver discovery.
+          </p>
+
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 18px;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px;">
+              <span style="color: var(--text-muted);">File:</span>
+              <span class="mono" style="color: var(--text-primary);">mirrorcast.apk</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px;">
+              <span style="color: var(--text-muted);">Package Size:</span>
+              <span class="mono" style="color: var(--accent-green);">55.4 MB</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+              <span style="color: var(--text-muted);">Compatibility:</span>
+              <span style="color: var(--text-secondary);">Android 5.0 (API 21) &bull; 15 (API 35)</span>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 18px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span class="mono" style="font-size: 0.72rem; color: var(--text-muted);">SHA256 CHECKSUM</span>
+              <button class="btn btn-ghost btn-sm" onclick="navigator.clipboard.writeText('4CFE85BAC78CF7904379ACE656F72838BC20727C34A88E7AD087644802FB2282'); alert('Copied Android SHA256 Hash to clipboard!');" style="padding: 2px 6px; font-size: 0.7rem;">
+                Copy Hash
+              </button>
+            </div>
+            <div class="mono" style="font-size: 0.72rem; word-break: break-all; color: var(--text-secondary); background: #000; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border-subtle);">
+              4CFE85BAC78CF7904379ACE656F72838BC20727C34A88E7AD087644802FB2282
+            </div>
+          </div>
+        </div>
+
+        <a href="https://github.com/0xSHARON/mirrorcast/releases/download/v1.0.0/mirrorcast.apk" class="btn btn-primary btn-lg" style="width: 100%;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download Android APK (55.4 MB)
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Quick Sideload & Installation Commands -->
+    <section class="section" style="margin-top: 40px;">
+      <div class="section-tag">CLI Installation</div>
+      <h2 class="section-title">Automated ADB Sideload & Tethering</h2>
+      <p class="section-subtitle">
+        If you have Android Debug Bridge (ADB) installed, install and connect in two terminal commands.
+      </p>
+
+      <div class="terminal-card" style="margin-top: 24px; max-width: 100%;">
+        <div class="terminal-header">
+          <span class="mono">powershell / bash</span>
+          <button class="btn btn-ghost btn-sm" id="btn-copy-install" style="padding: 2px 8px; font-size: 0.72rem;">
+            Copy All Commands
+          </button>
+        </div>
+        <div class="terminal-body" id="install-code-block">
+          <div class="terminal-line">
+            <span class="prompt"># 1. Install APK on connected device</span>
+          </div>
+          <div class="terminal-line">
+            <span class="prompt">$</span>
+            <span>adb install -r mirrorcast.apk</span>
+          </div>
+          <div class="terminal-line">
+            <span class="prompt"># 2. Setup zero-latency USB reverse tunneling (optional for USB tethering)</span>
+          </div>
+          <div class="terminal-line">
+            <span class="prompt">$</span>
+            <span>adb reverse tcp:8080 tcp:8080</span>
+          </div>
+          <div class="terminal-line">
+            <span class="prompt"># 3. Launch the sender app directly from terminal</span>
+          </div>
+          <div class="terminal-line">
+            <span class="prompt">$</span>
+            <span>adb shell monkey -p com.mirrorcast 1</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="section">
+      <div class="section-tag">Benchmarking</div>
+      <h2 class="section-title">Architectural Comparison</h2>
+      <p class="section-subtitle">
+        How MirrorCast compares against traditional mirroring tools.
+      </p>
+
+      <table class="specs-table" style="margin-top: 24px;">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>MirrorCast</th>
+            <th>scrcpy</th>
+            <th>Miracast / Google Cast</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Average Latency</td>
+            <td><strong style="color: var(--accent-green);">10ms &ndash; 18ms</strong></td>
+            <td>35ms &ndash; 70ms</td>
+            <td>150ms &ndash; 400ms</td>
+          </tr>
+          <tr>
+            <td>Transport Layer</td>
+            <td>Native WebRTC SRTP (LAN or USB)</td>
+            <td>Raw TCP stream over ADB</td>
+            <td>Wi-Fi Direct / mDNS HTTP</td>
+          </tr>
+          <tr>
+            <td>Wireless Pairing</td>
+            <td><strong style="color: var(--accent-green);">Automatic mDNS Zeroconf</strong></td>
+            <td>Manual adb tcpip pairing required</td>
+            <td>PIN or broadcast discovery</td>
+          </tr>
+          <tr>
+            <td>Receiver Footprint</td>
+            <td><strong style="color: var(--accent-green);">1.16 MB Native EXE</strong></td>
+            <td>~50 MB with FFmpeg & SDL runtime</td>
+            <td>OS Built-in / proprietary</td>
+          </tr>
+          <tr>
+            <td>Access Control</td>
+            <td><strong style="color: var(--accent-green);">Interactive Desktop Prompt</strong></td>
+            <td>None (ADB key trusted blindly)</td>
+            <td>PIN or device prompt</td>
+          </tr>
+          <tr>
+            <td>Cloud or Internet</td>
+            <td><strong style="color: var(--accent-green);">0% Cloud (100% Offline)</strong></td>
+            <td>100% Offline</td>
+            <td>Often requires Google Play / Wi-Fi route</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- System Requirements -->
+    <section class="section">
+      <div class="section-tag">Prerequisites</div>
+      <h2 class="section-title">Hardware & Operating System Requirements</h2>
+
+      <div class="grid-2" style="margin-top: 24px;">
+        <div class="card">
+          <div class="card-title">Windows Host (Receiver)</div>
+          <ul style="list-style: none; padding-left: 0; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.8;">
+            <li>&bull; <strong>OS:</strong> Windows 10 (Build 1809+) or Windows 11 (64-bit)</li>
+            <li>&bull; <strong>Processor:</strong> Dual-Core 1.8 GHz or faster (x86_64)</li>
+            <li>&bull; <strong>Graphics:</strong> Direct3D 11 compatible GPU (Intel HD 4000+, NVIDIA Kepler+, AMD GCN+)</li>
+            <li>&bull; <strong>RAM:</strong> 128 MB available memory</li>
+            <li>&bull; <strong>Firewall:</strong> Allow incoming TCP/UDP on port 8080 and port 5353 (Local Subnet only)</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Android Device (Sender)</div>
+          <ul style="list-style: none; padding-left: 0; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.8;">
+            <li>&bull; <strong>OS:</strong> Android 5.0 (API 21) or higher</li>
+            <li>&bull; <strong>Audio Loopback:</strong> Android 10+ (API 29+) required for internal audio forwarding</li>
+            <li>&bull; <strong>Hardware Encoder:</strong> OMX or C2 H.264 hardware encoder (standard on 99.8% of devices)</li>
+            <li>&bull; <strong>Connection:</strong> 5 GHz Wi-Fi router (for wireless) or USB 2.0/3.0 cable with USB Debugging enabled</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-author">
+        <span>Engineered with precision by</span>
+        <a href="https://github.com/0xSHARON" target="_blank" rel="noopener noreferrer" class="author-link">
+          0xSHARON
+        </a>
+        <span>&bull;</span>
+        <a href="https://github.com/0xSHARON/mirrorcast" target="_blank" rel="noopener noreferrer" style="color: var(--text-secondary);">
+          GitHub Repository
+        </a>
+      </div>
+
+      <div style="display: flex; gap: 20px; font-size: 0.82rem; color: var(--text-muted);">
+        <a href="index.html">Overview</a>
+        <a href="protocol.html">Protocol Spec</a>
+        <a href="https://github.com/0xSHARON/mirrorcast/blob/main/LICENSE.md" target="_blank" rel="noopener noreferrer">MIT License</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
