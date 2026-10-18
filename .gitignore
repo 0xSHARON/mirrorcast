@@ -1,0 +1,58 @@
+# ==============================================================================
+# MirrorCast - Comprehensive .gitignore
+# ==============================================================================
+
+# Operating System & IDE
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+.idea/
+*.swp
+*~
+*.bak
+
+# Visual Studio & .NET
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.userprefs
+*.ide/
+*.WebView2/
+EBWebView/
+publish/
+
+# Android & Gradle
+.gradle/
+build/
+*/build/
+*/*/build/
+local.properties
+.cxx/
+*.hprof
+.navigation/
+captures/
+
+# Temporary / Log files
+*.log
+*.tmp
+phone_screenshot*.png
+screen_test*.png
+
+# Release Binaries (Hosted via GitHub Releases)
+release/*.apk
+release/*.zip
+release/*.exe
+release/*.dll
+release/*.pdb
+release/*.deps.json
+release/*.runtimeconfig.json
+release/*.xml
+release/runtimes/
+release/staging_win/
+release/temp_win_pkg/
+

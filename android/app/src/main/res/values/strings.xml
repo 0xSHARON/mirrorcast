@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MirrorCast</string>
+    <string name="notification_channel_name">MirrorCast Screen Sharing</string>
+    <string name="notification_channel_desc">Active screen mirroring notification</string>
+    <string name="notification_title">MirrorCast is active</string>
+    <string name="notification_text">Your screen is being streamed to Windows PC</string>
+    <string name="action_stop">Stop Sharing</string>
+    <string name="author_credit">by 0xSHARON</string>
+    <string name="github_url">https://github.com/0xSHARON/mirrorcast</string>
+</resources>
