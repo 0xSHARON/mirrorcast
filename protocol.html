@@ -3,11 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MirrorCast Protocol Specification — Wire format, WebSocket signaling state machine, mDNS discovery, and DTLS-SRTP media plane.">
+  
+  <!-- Primary Meta Tags -->
+  <title>MirrorCast Protocol Specification — WebRTC P2P Wire Format v1.0.0 | RFC 6762 / 6455 / 5764</title>
+  <meta name="title" content="MirrorCast Protocol Specification — WebRTC P2P Wire Format v1.0.0">
+  <meta name="description" content="Technical specification for MirrorCast: RFC 6762 mDNS discovery, RFC 6455 WebSocket control signaling, RFC 5764 DTLS-SRTP media plane, and interactive JSON payload inspector.">
+  <meta name="keywords" content="mirrorcast protocol, webrtc screen mirror spec, mdns zeroconf screen sharing, srtp video stream, h264 rtp packetization, screen mirror architecture">
   <meta name="author" content="0xSHARON">
-  <title>MirrorCast — Protocol Specification v1.0.0</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#090a0f">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="https://0xsharon.github.io/mirrorcast/protocol.html">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://0xsharon.github.io/mirrorcast/protocol.html">
+  <meta property="og:title" content="MirrorCast Protocol Specification v1.0.0">
+  <meta property="og:description" content="Wire format, WebSocket control signaling, and DTLS-SRTP media transport specification for sub-15ms screen mirroring.">
+  <meta property="og:image" content="https://0xsharon.github.io/mirrorcast/assets/banner.png">
+  <meta property="og:site_name" content="MirrorCast">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@0xSHARON">
+  <meta name="twitter:creator" content="@0xSHARON">
+  <meta name="twitter:title" content="MirrorCast Protocol Specification v1.0.0">
+  <meta name="twitter:description" content="Wire format, WebSocket control signaling, and DTLS-SRTP media transport specification for sub-15ms screen mirroring.">
+  <meta name="twitter:image" content="https://0xsharon.github.io/mirrorcast/assets/banner.png">
+
+  <!-- Favicon & Icons -->
   <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Structured Data: TechArticle -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "MirrorCast Protocol Specification v1.0.0",
+    "description": "Comprehensive specification covering mDNS discovery, WebSocket control signaling, and WebRTC SRTP media pipelines.",
+    "author": {
+      "@type": "Person",
+      "name": "0xSHARON",
+      "url": "https://github.com/0xSHARON"
+    },
+    "datePublished": "2026-10-18",
+    "publisher": {
+      "@type": "Organization",
+      "name": "MirrorCast",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://0xsharon.github.io/mirrorcast/assets/logo.png"
+      }
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -28,9 +82,15 @@
       </ul>
 
       <div class="nav-actions">
-        <a href="https://github.com/0xSHARON" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">
-          <span>0xSHARON</span>
+        <!-- Live GitHub Star Button -->
+        <a href="https://github.com/0xSHARON/mirrorcast" target="_blank" rel="noopener noreferrer" class="star-btn" id="nav-star-btn" title="Star MirrorCast on GitHub">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <span>Star</span>
+          <span class="star-count" id="nav-star-count">★ Star</span>
         </a>
+
         <a href="downloads.html" class="btn btn-primary btn-sm">
           Get MirrorCast
         </a>
@@ -71,7 +131,7 @@
       <div class="grid-3" style="margin-top: 28px;">
         <div class="card">
           <div class="mono" style="color: var(--accent-cyan); font-size: 0.78rem; margin-bottom: 8px;">LAYER 1: DISCOVERY</div>
-          <div class="card-title">mDNS / DNS-SD</div>
+          <h3 class="card-title">mDNS / DNS-SD</h3>
           <p class="card-description">
             Broadcasts over UDP <code class="mono">224.0.0.251:5353</code> with PTR record <code class="mono">_mirrorcast._tcp.local</code>. Enables zero-configuration LAN discovery within 20 milliseconds.
           </p>
@@ -79,7 +139,7 @@
 
         <div class="card">
           <div class="mono" style="color: var(--accent-cyan); font-size: 0.78rem; margin-bottom: 8px;">LAYER 2: CONTROL</div>
-          <div class="card-title">WebSocket Signaling</div>
+          <h3 class="card-title">WebSocket Signaling</h3>
           <p class="card-description">
             Bidirectional JSON message framing over TCP port 8080 (or USB ADB reverse tunnel). Handles device capability exchange, authorization consent, and WebRTC SDP negotiation.
           </p>
@@ -87,7 +147,7 @@
 
         <div class="card">
           <div class="mono" style="color: var(--accent-cyan); font-size: 0.78rem; margin-bottom: 8px;">LAYER 3: DATA PLANE</div>
-          <div class="card-title">WebRTC SRTP</div>
+          <h3 class="card-title">WebRTC SRTP</h3>
           <p class="card-description">
             Direct PeerConnection carrying H.264 video RTP streams and Opus audio RTP packets, encrypted end-to-end with ephemeral DTLS-SRTP keys.
           </p>
@@ -261,7 +321,7 @@
         </a>
       </div>
 
-      <div style="display: flex; gap: 20px; font-size: 0.82rem; color: var(--text-muted);">
+      <div style="display: flex; gap: 20px; font-size: 0.82rem; color: var(--text-muted); flex-wrap: wrap;">
         <a href="index.html">Overview</a>
         <a href="downloads.html">Release Binaries</a>
         <a href="https://github.com/0xSHARON/mirrorcast/blob/main/LICENSE.md" target="_blank" rel="noopener noreferrer">MIT License</a>

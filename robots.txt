@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://0xsharon.github.io/mirrorcast/sitemap.xml

@@ -87,6 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return `adb install -r mirrorcast.apk\nadb reverse tcp:8080 tcp:8080\nadb shell monkey -p com.mirrorcast 1`;
   });
 
+  setupCopyButton('btn-copy-badge', () => {
+    return `[![MirrorCast](https://img.shields.io/badge/MirrorCast-v1.0.0--P2P-00e5ff?logo=android&logoColor=white)](https://github.com/0xSHARON/mirrorcast)`;
+  });
+
   /* -------------------------------------------------------------------------
    * 3. Interactive Protocol Wire Inspector (protocol.html)
    * ------------------------------------------------------------------------- */
@@ -178,6 +182,85 @@ document.addEventListener('DOMContentLoaded', () => {
       const activeTab = document.querySelector('.payload-tab.active');
       const key = activeTab ? activeTab.getAttribute('data-payload') : 'pair_request';
       return JSON.stringify(payloads[key], null, 2);
+    });
+  }
+
+  /* -------------------------------------------------------------------------
+   * 4. FAQ Accordion (index.html)
+   * ------------------------------------------------------------------------- */
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const questionBtn = item.querySelector('.faq-question');
+    if (questionBtn) {
+      questionBtn.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        faqItems.forEach(i => i.classList.remove('open'));
+        if (!isOpen) {
+          item.classList.add('open');
+        }
+      });
+    }
+  });
+
+  /* -------------------------------------------------------------------------
+   * 5. Live GitHub Star Count Fetcher
+   * ------------------------------------------------------------------------- */
+  const starCountEl = document.getElementById('nav-star-count');
+  if (starCountEl) {
+    fetch('https://api.github.com/repos/0xSHARON/mirrorcast')
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && typeof data.stargazers_count === 'number') {
+          starCountEl.textContent = `${data.stargazers_count} ★`;
+        }
+      })
+      .catch(() => {
+        // Fallback remains clean default
+      });
+  }
+
+  /* -------------------------------------------------------------------------
+   * 6. Viral Community Share Handlers
+   * ------------------------------------------------------------------------- */
+  const pageUrl = encodeURIComponent('https://github.com/0xSHARON/mirrorcast');
+  const shareText = encodeURIComponent('MirrorCast: Sub-15ms screen and audio mirroring from Android to Windows. Direct P2P WebRTC, zero cloud, 100% open source!');
+
+  const shareX = document.getElementById('share-x');
+  if (shareX) {
+    shareX.addEventListener('click', () => {
+      window.open(`https://twitter.com/intent/tweet?text=${shareText}&url=${pageUrl}`, '_blank', 'width=600,height=400');
+    });
+  }
+
+  const shareReddit = document.getElementById('share-reddit');
+  if (shareReddit) {
+    shareReddit.addEventListener('click', () => {
+      window.open(`https://www.reddit.com/submit?url=${pageUrl}&title=${shareText}`, '_blank', 'width=700,height=550');
+    });
+  }
+
+  const shareHN = document.getElementById('share-hn');
+  if (shareHN) {
+    shareHN.addEventListener('click', () => {
+      window.open(`https://news.ycombinator.com/submitlink?u=${pageUrl}&t=${shareText}`, '_blank', 'width=700,height=550');
+    });
+  }
+
+  const shareCopy = document.getElementById('share-copy');
+  if (shareCopy) {
+    shareCopy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('https://github.com/0xSHARON/mirrorcast');
+        const orig = shareCopy.textContent;
+        shareCopy.textContent = 'Copied!';
+        shareCopy.style.color = 'var(--accent-green)';
+        setTimeout(() => {
+          shareCopy.textContent = orig;
+          shareCopy.style.color = '';
+        }, 1800);
+      } catch (err) {
+        console.error(err);
+      }
     });
   }
 

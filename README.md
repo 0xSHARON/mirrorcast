@@ -14,10 +14,18 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/0xSHARON/mirrorcast"><img src="https://img.shields.io/badge/GitHub-0xSHARON%2Fmirrorcast-blue?logo=github" alt="Repository"></a>
-  <a href="https://github.com/0xSHARON"><img src="https://img.shields.io/badge/Author-0xSHARON-blueviolet" alt="Author"></a>
-  <a href="LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-green" alt="License"></a>
+  <a href="https://github.com/0xSHARON/mirrorcast/stargazers"><img src="https://img.shields.io/github/stars/0xSHARON/mirrorcast?style=social" alt="GitHub stars"></a>
+  <a href="https://github.com/0xSHARON/mirrorcast/releases/latest"><img src="https://img.shields.io/github/v/release/0xSHARON/mirrorcast?color=00e5ff&logo=github" alt="Release"></a>
+  <a href="https://github.com/0xSHARON/mirrorcast/releases"><img src="https://img.shields.io/github/downloads/0xSHARON/mirrorcast/total?color=10b981&logo=github" alt="Downloads"></a>
+  <a href="https://0xsharon.github.io/mirrorcast/"><img src="https://img.shields.io/badge/Website-Live%20Docs-black?logo=googlechrome" alt="Live Website"></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
 </p>
+
+<p align="center">
+  🌐 <strong>Live Website & Protocol Docs:</strong> <a href="https://0xsharon.github.io/mirrorcast/">https://0xsharon.github.io/mirrorcast/</a>
+</p>
+
 
 ---
 
