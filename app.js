@@ -264,4 +264,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* -------------------------------------------------------------------------
+   * 7. Interactive Demo Audio Mute Toggle
+   * ------------------------------------------------------------------------- */
+  const demoMuteBtn = document.getElementById('demo-mute-btn');
+  if (demoMuteBtn) {
+    let isMuted = false;
+    demoMuteBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      if (isMuted) {
+        demoMuteBtn.textContent = '🔇 Audio MUTED';
+        demoMuteBtn.style.color = 'var(--accent-amber)';
+      } else {
+        demoMuteBtn.textContent = '🔊 Audio ON';
+        demoMuteBtn.style.color = 'var(--accent-green)';
+      }
+    });
+  }
+
 });
+
